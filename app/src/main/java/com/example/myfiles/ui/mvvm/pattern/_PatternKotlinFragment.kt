@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.myfiles.R
 
-class _PatternKotlinFragment : Fragment() {
+class _PatternKotlinFragment : Fragment(), _PatternKotlinViewModel._PatternKotlinView {
 
     companion object {
         fun newInstance() = FileListFragment()
     }
 
-    private lateinit var viewModel: FileListViewModel
+    private lateinit var viewModel: _PatternKotlinViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +25,27 @@ class _PatternKotlinFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FileListViewModel::class.java)
-        viewModel.bind(FileListViewModel.Parameters())
+        viewModel = ViewModelProvider(this).get(_PatternKotlinViewModel::class.java)
+        viewModel.bind(activity as _PatternKotlinViewModel._PatternKotlinMessagesView,
+                this,
+                _PatternKotlinViewModel.Parameters()
+        )
     }
 
+    override fun showHint() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showItemInfo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideView() {
+        fragmentManager?.popBackStack()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.unbind()
+    }
 }

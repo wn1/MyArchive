@@ -16,7 +16,7 @@ public class _PatternJavaViewModel extends ViewModel {
     }
 
     interface _PatternKotlinView { //For fragment implements
-        void showMessage (String message);
+        void hideView ();
     }
 
     class Event {
