@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 import java.util.WeakHashMap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -17,12 +18,12 @@ interface ViewRunnable<T> {
 
 public class ViewsWithLifecycleDispatcher<T> implements LifecycleEventObserver {
 
-    private PriorityQueue<ViewRunnable<T>> runnableList =
+    private final PriorityQueue<ViewRunnable<T>> runnableList =
             new PriorityQueue<>();
-    private WeakHashMap<T, LifecycleOwner> viewLifecycleMap = new WeakHashMap<>();
-    private WeakHashMap<T, Object> viewMap = new WeakHashMap<>();
+    private final WeakHashMap<T, LifecycleOwner> viewLifecycleMap = new WeakHashMap<>();
+    private final WeakHashMap<T, Object> viewMap = new WeakHashMap<>();
 
-    private Object present = new Object();
+    private final Object present = new Object();
 
     public ViewsWithLifecycleDispatcher() {
 
@@ -30,10 +31,14 @@ public class ViewsWithLifecycleDispatcher<T> implements LifecycleEventObserver {
 
     public void addView(T view, LifecycleOwner lifecycleOwner) { //Подключение View
         if (lifecycleOwner != null) {
-            viewLifecycleMap.put(view, lifecycleOwner);
-            lifecycleOwner.getLifecycle().addObserver(this);
+            synchronized(viewLifecycleMap) {
+                viewLifecycleMap.put(view, lifecycleOwner);
+                lifecycleOwner.getLifecycle().addObserver(this);
+            }
         } else {
-            viewMap.put(view, present);
+            synchronized(viewMap) {
+                viewMap.put(view, present);
+            }
         }
         dispatchStored();
     }
@@ -48,28 +53,72 @@ public class ViewsWithLifecycleDispatcher<T> implements LifecycleEventObserver {
 
     public void removeView(T view) { //Удаление View
         if (view instanceof LifecycleOwner) {
-            viewLifecycleMap.get(view).getLifecycle().removeObserver(this);
-            viewLifecycleMap.remove(view);
+            synchronized(viewLifecycleMap) {
+                viewLifecycleMap.get(view).getLifecycle().removeObserver(this);
+                viewLifecycleMap.remove(view);
+            }
         } else {
-            viewMap.remove(view);
+            synchronized(viewMap) {
+                viewMap.remove(view);
+            }
         }
     }
 
     public void removeAllView() { //Удаление View
-        viewLifecycleMap.clear();
-        viewMap.clear();
+        synchronized(viewLifecycleMap) {
+            viewLifecycleMap.clear();
+        }
+        synchronized(viewMap) {
+            viewMap.clear();
+        }
     }
 
     private void run (ViewRunnable<T> runnable, T view) {
         runnable.onRun(view);
     }
 
+    @UiThread
     private void dispatchStored() {
-        while (!runnableList.isEmpty()) {
-            boolean isViewInPresenterStateFinded = false;
-            ViewRunnable<T> runnable = runnableList.peek();
+        synchronized(runnableList) {
+            while (!runnableList.isEmpty()) {
+                boolean isViewInPresenterStateFinded = false;
+                ViewRunnable<T> runnable = runnableList.peek();
+                synchronized (viewLifecycleMap) {
+                    for (Map.Entry<T, LifecycleOwner> entry : viewLifecycleMap.entrySet()) {
+                        try {
+                            if (entry.getValue().getLifecycle().getCurrentState().isAtLeast(STARTED)) {
+                                run(runnable, entry.getKey());
+                                isViewInPresenterStateFinded = true;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                synchronized (viewMap) {
+                    for (Map.Entry<T, Object> entry : viewMap.entrySet()) {
+                        try {
+                            run(runnable, entry.getKey());
+                            isViewInPresenterStateFinded = true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                synchronized (runnableList) {
+                    if (isViewInPresenterStateFinded) {
+                        runnableList.poll();
+                    }
+                }
+            }
+        }
+    }
 
-            for (Map.Entry<T, LifecycleOwner> entry: viewLifecycleMap.entrySet()){
+    @UiThread
+    public void dispatch(ViewRunnable<T> runnable) {
+        boolean isViewInPresenterStateFinded = false;
+        synchronized(viewLifecycleMap) {
+            for (Map.Entry<T, LifecycleOwner> entry : viewLifecycleMap.entrySet()) {
                 try {
                     if (entry.getValue().getLifecycle().getCurrentState().isAtLeast(STARTED)) {
                         run(runnable, entry.getKey());
@@ -79,51 +128,30 @@ public class ViewsWithLifecycleDispatcher<T> implements LifecycleEventObserver {
                     e.printStackTrace();
                 }
             }
-
-            for (Map.Entry<T, Object> entry: viewMap.entrySet()){
+        }
+        synchronized(viewMap) {
+            for (Map.Entry<T, Object> entry : viewMap.entrySet()) {
+                isViewInPresenterStateFinded = true;
                 try {
                     run(runnable, entry.getKey());
-                    isViewInPresenterStateFinded = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
-            if (isViewInPresenterStateFinded) {
-                runnableList.poll();
-            }
-        }
-    }
-
-    public void dispatch(ViewRunnable<T> runnable) {
-        boolean isViewInPresenterStateFinded = false;
-        for (Map.Entry<T, LifecycleOwner> entry: viewLifecycleMap.entrySet()){
-            try {
-                if (entry.getValue().getLifecycle().getCurrentState().isAtLeast(STARTED)) {
-                    run(runnable, entry.getKey());
-                    isViewInPresenterStateFinded = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        for (Map.Entry<T, Object> entry: viewMap.entrySet()){
-            isViewInPresenterStateFinded = true;
-            try {
-                run(runnable, entry.getKey());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         if (!isViewInPresenterStateFinded) {
-            runnableList.add(runnable);
+            synchronized(runnableList) {
+                runnableList.add(runnable);
+            }
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        for (Map.Entry<T, LifecycleOwner> entry: viewLifecycleMap.entrySet()){
-            entry.getValue().getLifecycle().removeObserver(this);
+        synchronized(viewLifecycleMap) {
+            for (Map.Entry<T, LifecycleOwner> entry : viewLifecycleMap.entrySet()) {
+                entry.getValue().getLifecycle().removeObserver(this);
+            }
         }
         super.finalize();
     }

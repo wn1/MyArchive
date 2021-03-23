@@ -17,7 +17,7 @@ import com.example.myfiles.ui.mvvm.pattern._PatternJavaFragment;
 
 public class AboutFragment extends Fragment {
 
-    private AndroidJavaViewModel mViewModel;
+    private AboutViewModel mViewModel;
 
     public static _PatternJavaFragment newInstance() {
         return new _PatternJavaFragment();
@@ -32,7 +32,7 @@ public class AboutFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AndroidJavaViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AboutViewModel.class);
         // TODO: Use the ViewModel
     }
 
