@@ -12,11 +12,11 @@ import androidx.lifecycle.LifecycleOwner;
 
 import static androidx.lifecycle.Lifecycle.State.STARTED;
 
-interface ViewRunnable<T> {
-    void onRun(T view);
-}
-
 public class ViewsWithLifecycleDispatcher<T> implements LifecycleEventObserver {
+
+    public interface ViewRunnable<T> {
+        void onRun(T view);
+    }
 
     private final PriorityQueue<ViewRunnable<T>> runnableList =
             new PriorityQueue<>();
