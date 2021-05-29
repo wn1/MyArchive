@@ -1,8 +1,8 @@
-package com.example.myfiles.ui.mvvm
+package com.qdev.myarchive.ui.mvvm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfiles.helper.ViewsWithLifecycleDispatcher
+import com.qdev.myarchive.helper.ViewsWithLifecycleDispatcher
 import java.io.Serializable
 import java.lang.ref.WeakReference
 

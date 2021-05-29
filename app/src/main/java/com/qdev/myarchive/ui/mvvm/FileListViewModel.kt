@@ -1,4 +1,4 @@
-package com.example.myfiles.ui.mvvm
+package com.qdev.myarchive.ui.mvvm
 
 import androidx.lifecycle.ViewModel
 import java.io.Serializable

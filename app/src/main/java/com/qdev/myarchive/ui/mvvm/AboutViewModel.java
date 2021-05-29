@@ -1,8 +1,8 @@
-package com.example.myfiles.ui.mvvm;
+package com.qdev.myarchive.ui.mvvm;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.myfiles.helper.LateinitProperties;
+import com.qdev.myarchive.helper.LateinitProperties;
 
 public class AboutViewModel extends ViewModel {
 

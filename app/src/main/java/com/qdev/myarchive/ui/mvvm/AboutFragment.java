@@ -1,4 +1,4 @@
-package com.example.myfiles.ui.mvvm.pattern;
+package com.qdev.myarchive.ui.mvvm;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,11 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.myfiles.R;
+import com.qdev.myarchive.R;
+import com.qdev.myarchive.ui.mvvm.pattern._PatternJavaFragment;
 
-public class _PatternJavaFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
-    private _PatternJavaViewModel mViewModel;
+    private AboutViewModel mViewModel;
 
     public static _PatternJavaFragment newInstance() {
         return new _PatternJavaFragment();
@@ -31,7 +32,7 @@ public class _PatternJavaFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(_PatternJavaViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AboutViewModel.class);
         // TODO: Use the ViewModel
     }
 

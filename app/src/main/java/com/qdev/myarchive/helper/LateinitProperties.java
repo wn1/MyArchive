@@ -1,4 +1,4 @@
-package com.example.myfiles.helper;
+package com.qdev.myarchive.helper;
 import androidx.annotation.NonNull;
 
 public class LateinitProperties<T> {

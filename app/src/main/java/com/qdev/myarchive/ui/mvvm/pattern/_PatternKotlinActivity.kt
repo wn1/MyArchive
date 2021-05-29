@@ -1,8 +1,8 @@
-package com.example.myfiles.ui.mvvm.pattern
+package com.qdev.myarchive.ui.mvvm.pattern
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myfiles.R
+import com.qdev.myarchive.R
 
 class _PatternKotlinActivity : AppCompatActivity(),
         _PatternJavaViewModel._PatternKotlinMessagesView {

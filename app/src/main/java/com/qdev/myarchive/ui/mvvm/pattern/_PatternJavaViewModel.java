@@ -1,10 +1,10 @@
-package com.example.myfiles.ui.mvvm.pattern;
+package com.qdev.myarchive.ui.mvvm.pattern;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.myfiles.helper.LateinitProperties;
+import com.qdev.myarchive.helper.LateinitProperties;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;

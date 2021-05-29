@@ -1,4 +1,4 @@
-package com.example.myfiles
+package com.qdev.myarchive
 
 import org.junit.Test
 

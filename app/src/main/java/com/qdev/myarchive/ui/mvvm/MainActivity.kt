@@ -1,8 +1,8 @@
-package com.example.myfiles.ui.mvvm
+package com.qdev.myarchive.ui.mvvm
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.myfiles.R
+import com.qdev.myarchive.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

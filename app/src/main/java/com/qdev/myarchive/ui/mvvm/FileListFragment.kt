@@ -1,4 +1,4 @@
-package com.example.myfiles.ui.mvvm
+package com.qdev.myarchive.ui.mvvm
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.myfiles.R
+import com.qdev.myarchive.R
 
 class FileListFragment : Fragment() {
 
