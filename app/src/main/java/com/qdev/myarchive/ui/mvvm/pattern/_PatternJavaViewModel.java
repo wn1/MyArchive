@@ -11,11 +11,11 @@ import java.lang.ref.WeakReference;
 
 public class _PatternJavaViewModel extends ViewModel {
 
-    interface _PatternKotlinMessagesView { //For activity implement messages in any fragments
+    interface _PatternJavaMessagesView { //For activity implement messages in any fragments
         void showMessage (String message);
     }
 
-    interface _PatternKotlinView { //For fragment implements
+    interface _PatternJavaView { //For fragment implements
         void hideView ();
     }
 
@@ -33,14 +33,14 @@ public class _PatternJavaViewModel extends ViewModel {
     private LateinitProperties parameters = new LateinitProperties<Parameters>();
 
     @Nullable
-    private WeakReference<_PatternKotlinMessagesView> messagesView = null;
+    private WeakReference<_PatternJavaMessagesView> messagesView = null;
     @Nullable
-    private WeakReference<_PatternKotlinView> view = null;
+    private WeakReference<_PatternJavaView> view = null;
     @Nullable
     private MutableLiveData event = null; //Event for fragment
 
-    public void bind(_PatternKotlinMessagesView messagesView,
-                     _PatternKotlinView view,
+    public void bind(_PatternJavaMessagesView messagesView,
+                     _PatternJavaView view,
                      Parameters parameters) {
         this.messagesView = new WeakReference(messagesView);
         this.view = new WeakReference(view);

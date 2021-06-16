@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.qdev.myarchive.R
 
 class _PatternKotlinActivity : AppCompatActivity(),
-        _PatternJavaViewModel._PatternKotlinMessagesView {
+        _PatternJavaViewModel._PatternJavaMessagesView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

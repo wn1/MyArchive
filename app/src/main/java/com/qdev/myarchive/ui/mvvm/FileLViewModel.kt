@@ -3,7 +3,7 @@ package com.qdev.myarchive.ui.mvvm
 import androidx.lifecycle.ViewModel
 import java.io.Serializable
 
-class FileListViewModel : ViewModel() {
+class FileLViewModel : ViewModel() {
 
     class Parameters : Serializable
 

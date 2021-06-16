@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.qdev.myarchive.R
 
-class FileListFragment : Fragment() {
+class FileLFragment : Fragment() {
 
     companion object {
-        fun newInstance() = FileListFragment()
+        fun newInstance() = FileLFragment()
     }
 
-    private lateinit var viewModel: FileListViewModel
+    private lateinit var viewModel: FileLViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +25,8 @@ class FileListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FileListViewModel::class.java)
-        viewModel.bind(FileListViewModel.Parameters())
+        viewModel = ViewModelProvider(this).get(FileLViewModel::class.java)
+        viewModel.bind(FileLViewModel.Parameters())
     }
 
 }
