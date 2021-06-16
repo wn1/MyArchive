@@ -1,4 +1,4 @@
-package com.qdev.myarchive.ui.mvvm
+package com.qdev.myarchive.ui.mvvm.pattern
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,11 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.qdev.myarchive.R
+import com.qdev.myarchive.ui.mvvm.FileLFragment
+import com.qdev.myarchive.ui.mvvm._PatternKotlinViewModel
 
 class _PatternKotlinFragment : Fragment(), _PatternKotlinViewModel._PatternKotlinView {
 
     companion object {
-        fun newInstance() = FileListFragment()
+
+        fun newInstance(parameters: _PatternKotlinViewModel.Parameters) = FileLFragment().also {
+            it.arguments = Bundle().apply {
+                putSerializable("p", parameters)
+            }
+        }
+
     }
 
     private lateinit var viewModel: _PatternKotlinViewModel
@@ -27,8 +35,7 @@ class _PatternKotlinFragment : Fragment(), _PatternKotlinViewModel._PatternKotli
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(_PatternKotlinViewModel::class.java)
         viewModel.bind(activity as _PatternKotlinViewModel._PatternKotlinMessagesView,
-                this,
-                _PatternKotlinViewModel.Parameters()
+            this, arguments?.get("p") as _PatternKotlinViewModel.Parameters
         )
     }
 

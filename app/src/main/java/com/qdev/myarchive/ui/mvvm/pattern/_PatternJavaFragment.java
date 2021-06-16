@@ -14,12 +14,17 @@ import android.view.ViewGroup;
 
 import com.qdev.myarchive.R;
 
-public class _PatternJavaFragment extends Fragment {
+public class _PatternJavaFragment extends Fragment
+        implements _PatternJavaViewModel._PatternJavaView {
 
     private _PatternJavaViewModel mViewModel;
 
-    public static _PatternJavaFragment newInstance() {
-        return new _PatternJavaFragment();
+    public static _PatternJavaFragment newInstance(_PatternJavaViewModel.Parameters parameters) {
+            _PatternJavaFragment fragment = new _PatternJavaFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("p", parameters);
+            fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -32,7 +37,13 @@ public class _PatternJavaFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(_PatternJavaViewModel.class);
-        // TODO: Use the ViewModel
+        mViewModel.bind((_PatternJavaViewModel._PatternJavaMessagesView) getActivity(),
+                this ,(_PatternJavaViewModel.Parameters) getArguments().get("p")
+        );
     }
 
+    @Override
+    public void hideView() {
+
+    }
 }
