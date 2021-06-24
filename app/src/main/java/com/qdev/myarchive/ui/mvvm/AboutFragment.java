@@ -30,8 +30,8 @@ public class AboutFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         mViewModel = new ViewModelProvider(this).get(AboutViewModel.class);
         // TODO: Use the ViewModel
     }

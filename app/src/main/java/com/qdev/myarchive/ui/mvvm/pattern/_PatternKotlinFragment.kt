@@ -56,8 +56,8 @@ class _PatternKotlinFragment : Fragment(), _PatternKotlinViewModel._PatternKotli
         return inflater.inflate(R.layout.file_list_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         viewModel = ViewModelProvider(this).get(_PatternKotlinViewModel::class.java)
         viewModel.bind(activity as _PatternKotlinViewModel._PatternKotlinMessagesView,
             this, arguments?.get("p") as _PatternKotlinViewModel.Parameters
@@ -73,7 +73,7 @@ class _PatternKotlinFragment : Fragment(), _PatternKotlinViewModel._PatternKotli
     }
 
     override fun hideView() {
-        fragmentManager?.popBackStack()
+        parentFragmentManager.popBackStack()
     }
 
     override fun onDestroyView() {

@@ -23,8 +23,8 @@ class FileLFragment : Fragment() {
         return inflater.inflate(R.layout.file_list_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         viewModel = ViewModelProvider(this).get(FileLViewModel::class.java)
         viewModel.bind(FileLViewModel.Parameters())
     }
