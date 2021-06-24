@@ -59,8 +59,8 @@ public class _PatternJavaFragment extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         mViewModel = new ViewModelProvider(this).get(_PatternJavaViewModel.class);
         mViewModel.bind((_PatternJavaViewModel._PatternJavaMessagesView) getActivity(),
                 this ,(_PatternJavaViewModel.Parameters) getArguments().get("p")
