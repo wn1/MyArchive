@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
 fun createRoomDb(applicationContext: Context): MyArchiveDatabase {
     return Room.databaseBuilder(
         applicationContext,
-        MyArchiveDatabase::class.java, "database-name"
+        MyArchiveDatabase::class.java, "MyArchiveDatabase"
     ).build()
 }
 
@@ -22,7 +22,7 @@ fun createRoomDb(applicationContext: Context): MyArchiveDatabase {
 * TemplateDatabase class holds the database. TemplateDatabase defines the database configuration
 * and serves as the app's main access point to the persisted data.
 */
-@Database(entities = [FileEntity::class], version = 1)
+@Database(entities = [FileEntity::class, ArchiveFolderEntity::class], version = 1)
 abstract class MyArchiveDatabase : RoomDatabase() {
     abstract fun fileDao(): FileDao
 }

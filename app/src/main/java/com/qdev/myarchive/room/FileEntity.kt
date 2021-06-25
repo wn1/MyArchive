@@ -13,8 +13,23 @@ data class FileEntity(
     val id: Long,
 
     @ColumnInfo
-    val fileName: String,
+    val backupFileName: String,
 
     @ColumnInfo
-    val originalName: String
+    val fileNameList: List<String>,
+
+    @ColumnInfo
+    val originalDate: Long,
+
+    @ColumnInfo
+    val scanDate: Long,
+
+    @ColumnInfo
+    val doubleSha256: String,
+
+    @ColumnInfo
+    val fileSize: Long,
+
+    @ColumnInfo
+    val backupDoublesDescriptionFile: String
 )
