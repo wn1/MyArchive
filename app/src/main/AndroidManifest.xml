@@ -13,12 +13,14 @@
             android:name=".service.FileArchiveService"
             android:exported="false"></service>
 
-        <activity android:name=".ui.mvvm.MainActivity">
+        <activity android:name=".ui.mvvm.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

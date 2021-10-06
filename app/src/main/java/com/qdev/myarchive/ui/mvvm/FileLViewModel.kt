@@ -22,4 +22,8 @@ class FileLViewModel : ViewModel() {
     private fun firstLoad() {
 
     }
+
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

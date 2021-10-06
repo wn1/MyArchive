@@ -33,7 +33,11 @@ class NewFileWorker(context: Context, workerParams: WorkerParameters) :
             Log.d(tag, "Error ${ex.printStackTrace()}")
             return Result.failure()
         }
-        return Result.retry()
+//        return Result.retry()
+        return Result.success()
     }
 
+    override fun onStopped() {
+        super.onStopped()
+    }
 }

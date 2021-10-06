@@ -19,8 +19,8 @@ public class AboutFragment extends Fragment {
 
     private AboutViewModel mViewModel;
 
-    public static _PatternJavaFragment newInstance() {
-        return new _PatternJavaFragment();
+    public static AboutFragment newInstance() {
+        return new AboutFragment();
     }
 
     @Override
