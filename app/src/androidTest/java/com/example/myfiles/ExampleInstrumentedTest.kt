@@ -48,9 +48,10 @@ class ViewsWithLifecycleDispatcherTest {
 
     private val testCheck = TestCheck()
 
-    private var testIsOkString = "addView1 dispatch sendEvent1 event1.1 sendEvent2 event2.1 " +
-            "removeView1 sendEvent1 addView1 event1.1 addView2 sendEvent1 event1.1 " +
-            "event1.2 sendEvent2 event2.1 event 2.2"
+    private var testIsOkString = "dispatch addView1 sendEvent1 point1.1 sendEvent2 point2.1 " +
+            "dispatch sendEvent1 point1.1 sendEvent2 point2.1 " +
+            "removeView1 addView1 sendEvent1 point1.1 addView2 sendEvent1 point1.1 " +
+            "sendEvent2 point2.1 sendEvent1 point1.2 sendEvent2 point2.2"
 
     private val viewsWithLifecycleDispatcher = ViewsWithLifecycleDispatcher<TestViewEvents>()
 
@@ -69,7 +70,6 @@ class ViewsWithLifecycleDispatcherTest {
 
     }
 
-    @Test
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -80,6 +80,14 @@ class ViewsWithLifecycleDispatcherTest {
     fun testFunctions() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
+        //TODO Need test without addView
+        testCheck.testPoint("dispatch")
+        viewsWithLifecycleDispatcher.dispatch {
+            testCheck.testPoint("sendEvent1")
+            it.test1()
+            testCheck.testPoint("sendEvent2")
+            it.test2()
+        }
         testCheck.testPoint("addView1")
         viewsWithLifecycleDispatcher.addView(testViewEvents1)
         testCheck.testPoint("dispatch")
